@@ -1,0 +1,54 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+:root {
+  --primary: #3ABEFF;
+  --primary-hover: #2FC3EC;
+  --background: #F9FAFB;
+  --text-dark: #1F2937;
+  --section-bg: #F3F4F6;
+  --footer-text: #6B7280;
+}
+
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #111827;
+    --text-dark: #F9FAFB;
+    --section-bg: #1F2937;
+    --footer-text: #9CA3AF;
+  }
+}
+
+body {
+  background-color: var(--background);
+  color: var(--text-dark);
+  font-family: system-ui, sans-serif;
+}
+
+
+.card {
+  @apply bg-white p-6 rounded-2xl shadow border border-gray-200;
+}
+
+.btn-primary {
+  @apply bg-[var(--primary)] hover:bg-[var(--primary-hover)] text-white px-4 py-2 rounded-full transition;
+}
+
+.btn-outline {
+  @apply border border-[var(--primary)] text-[var(--primary)] px-4 py-2 rounded-full hover:bg-[var(--primary-hover)] hover:text-white transition;
+}
+
+.text-responsive {
+  font-size: clamp(1rem, 2vw, 1.25rem);
+}
+
+.title-responsive {
+  font-size: clamp(2rem, 4vw, 3rem);
+}
+.dark body {
+  background-color: #1f2937;
+  color: white;
+}
