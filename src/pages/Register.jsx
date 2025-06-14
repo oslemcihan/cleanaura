@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import API from '../services/api';
 
 function Register() {
   const [email, setEmail] = useState('');
@@ -11,8 +11,8 @@ function Register() {
 
   const handleRegister = async (e) => {
     e.preventDefault();
-        try {
-      await axios.post('http://localhost:8080/api/auth/register', {
+    try {
+      await API.post('/auth/register', {
         email,
         password,
         customerType,

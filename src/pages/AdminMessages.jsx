@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import axios from 'axios';
+import API from '../services/api';
 
 function AdminMessages() {
   const [messages, setMessages] = useState([]);
@@ -7,12 +7,7 @@ function AdminMessages() {
   useEffect(() => {
     const fetchMessages = async () => {
       try {
-        const token = localStorage.getItem('token');
-        const res = await axios.get('http://localhost:8080/api/contact', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const res = await API.get('/contact'); // Token otomatik eklenecek
         setMessages(res.data);
       } catch (err) {
         console.error('Mesajlar alınamadı:', err);

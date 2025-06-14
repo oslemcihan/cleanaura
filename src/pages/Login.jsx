@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import API from '../services/api';
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -11,7 +11,7 @@ function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:8080/api/auth/login', {
+      const response = await API.post('/auth/login', {
         email,
         password,
       });

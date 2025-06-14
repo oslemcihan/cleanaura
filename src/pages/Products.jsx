@@ -7,7 +7,7 @@ import {
   addFavorite,
   removeFavorite,
 } from '../services/api';
-import axios from 'axios';
+import API from '../services/api';
 
 function Products() {
   const [products, setProducts] = useState([]);
@@ -62,18 +62,8 @@ function Products() {
   const handleOrderSubmit = async () => {
     if (cartItems.length === 0) return toast.warn('Sepet boş!');
 
-        try {
-      const token = localStorage.getItem('token');
-      await axios.post(
-        'http://localhost:8080/api/orders',
-        { items: cartItems },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
+    try {
+      await API.post('/orders', { items: cartItems });
       toast.success('Sipariş başarıyla oluşturuldu!');
       setCartItems([]);
     } catch (error) {
@@ -124,7 +114,6 @@ function Products() {
         </div>
       )}
 
-      
       <div className="mt-14 bg-white dark:bg-[#1e293b] p-8 rounded-3xl shadow-xl border border-[#d9e5e3] dark:border-gray-700 max-w-2xl mx-auto">
         <h3 className="text-2xl font-bold mb-4 text-[#0f172a] dark:text-white text-center">
           Sepet

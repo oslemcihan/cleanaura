@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import API from '../services/api';
 
 function AddProduct() {
   const [name, setName] = useState('');
@@ -10,17 +10,9 @@ function AddProduct() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const token = localStorage.getItem('token');
+
     try {
-      await axios.post(
-        'http://localhost:8080/api/products',
-        { name, price },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      await API.post('/products', { name, price });
       toast.success('Ürün başarıyla eklendi!');
       navigate('/');
     } catch (err) {

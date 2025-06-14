@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import axios from 'axios';
 import { toast } from 'react-toastify';
+import API from '../services/api';
 
 function AdminAddProduct() {
   const [product, setProduct] = useState({
@@ -17,19 +17,13 @@ function AdminAddProduct() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const token = localStorage.getItem('token');
-
     try {
-        await axios.post('http://localhost:8080/api/products', product, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        toast.success('Ürün başarıyla eklendi!');
-      } catch (err) {
-        toast.error('Ürün eklenemedi!');
-        console.error(err);
-      }
+      await API.post('/products', product); // Token otomatik olarak API'de ekleniyor
+      toast.success('Ürün başarıyla eklendi!');
+    } catch (err) {
+      toast.error('Ürün eklenemedi!');
+      console.error(err);
+    }
   };
 
   return (
@@ -57,6 +51,7 @@ function AdminAddProduct() {
               <input
                 name={name}
                 type={type}
+                value={product[name]}
                 onChange={handleChange}
                 required={name !== 'imageUrl'}
                 className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-[#3ABEFF] focus:outline-none dark:bg-gray-800 dark:text-white"

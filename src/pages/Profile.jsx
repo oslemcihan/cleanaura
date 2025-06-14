@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import axios from 'axios';
 import { toast } from 'react-toastify';
+import API from '../services/api';
 
 function Profile() {
   const [profile, setProfile] = useState(null);
@@ -9,12 +9,7 @@ function Profile() {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const token = localStorage.getItem('token');
-        const response = await axios.get('http://localhost:8080/api/user/me', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const response = await API.get('/user/me');
         setProfile(response.data);
       } catch (error) {
         setError('Profil bilgisi alınamadı. Lütfen giriş yapınız...');
@@ -46,7 +41,6 @@ function Profile() {
             <p><strong>📧 E-posta:</strong> {profile.email}</p>
             {profile.name && <p><strong>👤 İsim:</strong> {profile.name}</p>}
             {profile.customerType && <p><strong>🔖 Kullanıcı Tipi:</strong> {profile.customerType}</p>}
-       
             {profile.createdAt && (
               <p>
                 <strong>📅 Kayıt Tarihi:</strong>{' '}

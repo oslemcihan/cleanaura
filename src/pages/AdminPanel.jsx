@@ -1,21 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import API from '../services/api';
 import { toast } from 'react-toastify';
 
 const AdminPanel = () => {
   const [discount, setDiscount] = useState('');
   const [currentDiscount, setCurrentDiscount] = useState(null);
 
-  const token = localStorage.getItem('token');
-
   const fetchDiscount = async () => {
     try {
-      const response = await axios.get(
-        'http://localhost:8080/api/admin/settings/discount',
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
+      const response = await API.get('/admin/settings/discount');
       setCurrentDiscount(response.data);
     } catch (err) {
       console.error('İndirim oranı alınamadı', err);
@@ -23,20 +16,14 @@ const AdminPanel = () => {
   };
 
   const handleDiscountUpdate = async () => {
-      try {
-    await axios.put(
-      `http://localhost:8080/api/admin/settings/discount?rate=${parseFloat(discount)}`,
-      {},
-      {
-        headers: { Authorization: `Bearer ${token}` },
-      }
-    );
-    toast.success('İndirim oranı başarıyla güncellendi!');
-    setDiscount('');
-    fetchDiscount();
-  } catch (err) {
-    toast.error('Güncelleme başarısız: ' + (err.response?.data?.message || err.message));
-  }
+    try {
+      await API.put(`/admin/settings/discount?rate=${parseFloat(discount)}`);
+      toast.success('İndirim oranı başarıyla güncellendi!');
+      setDiscount('');
+      fetchDiscount();
+    } catch (err) {
+      toast.error('Güncelleme başarısız: ' + (err.response?.data?.message || err.message));
+    }
   };
 
   useEffect(() => {

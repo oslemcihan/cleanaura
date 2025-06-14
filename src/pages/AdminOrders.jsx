@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import API from '../services/api';
 import { toast } from 'react-toastify';
 
 const AdminOrders = () => {
@@ -13,10 +13,7 @@ const AdminOrders = () => {
 
   const fetchAllOrders = async () => {
     try {
-      const token = localStorage.getItem('token');
-      const response = await axios.get('http://localhost:8080/api/admin/orders', {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const response = await API.get('/admin/orders');
       setOrders(response.data);
     } catch (error) {
       console.error('Tüm siparişler alınamadı:', error);
@@ -55,20 +52,13 @@ const AdminOrders = () => {
   };
 
   const updateShippingStatus = async (orderId) => {
-    const token = localStorage.getItem('token');
     const newStatus = shippingUpdates[orderId];
     if (!newStatus) return;
 
     const translatedStatus = translateToBackendStatus(newStatus);
 
     try {
-      await axios.put(
-        `http://localhost:8080/api/admin/orders/${orderId}/shipping-status?status=${translatedStatus}`,
-        {},
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
+      await API.put(`/admin/orders/${orderId}/shipping-status?status=${translatedStatus}`);
       toast.success('Kargo durumu başarıyla güncellendi!');
       fetchAllOrders();
     } catch (error) {
